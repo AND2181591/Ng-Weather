@@ -10,7 +10,10 @@ import {Router} from "@angular/router";
 })
 export class CurrentConditionsComponent {
 
-  constructor(private weatherService : WeatherService, private locationService : LocationService, private router : Router) {
+  constructor(
+    private weatherService : WeatherService, 
+    private locationService : LocationService, 
+    private router : Router) {
   }
 
   getCurrentConditions() {

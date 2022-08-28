@@ -1,0 +1,7 @@
+<button 
+    class="btn btn-primary" 
+    [ngStyle]="addClass ? customStyle : ''"
+    [disabled]="isLoading" 
+    (click)="onSubmit()">
+    <ng-container *ngTemplateOutlet="displayedState"></ng-container>
+</button>
