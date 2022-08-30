@@ -1,8 +1,29 @@
 <div class="container-fluid">
 
   <div class="well">
-    <app-country-selection></app-country-selection>
-    <app-zipcode-entry></app-zipcode-entry>
+    <app-country-selection 
+      [countryControl]="weatherForm.get('country')"
+      [countries]="countries" 
+      [filteredCountries]="filteredCountries" 
+      (countryInput)="onTextInput($event)">
+    </app-country-selection>
+    <app-zipcode-entry 
+      [zipcodeControl]="weatherForm.get('zipcode')"
+      [isLoading]="isLoading">
+    </app-zipcode-entry>
+
+    <app-state-button 
+      [isLoading]="isLoading"
+      [defaultState]="defaultState" 
+      [workingState]="workingState" 
+      [finishedState]="finishedState" 
+      [customStyle]="done"
+      (submitted)="addLocation()">
+    </app-state-button>
+
+    <ng-template #defaultState>Add location</ng-template>
+    <ng-template #workingState>Adding...</ng-template>
+    <ng-template #finishedState>&#x2713; Done</ng-template>
   </div>
   <app-current-conditions></app-current-conditions>
 

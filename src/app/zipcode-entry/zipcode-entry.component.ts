@@ -1,31 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { WeatherService } from 'app/weather.service';
-import { LocationService } from "../location.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-zipcode-entry',
   templateUrl: './zipcode-entry.component.html'
 })
 export class ZipcodeEntryComponent implements OnInit {
-  isLoading = false;
-  done = {
-    backgroundColor: '#198754', 
-    borderColor: '#198754'
-  }
+  @Input() zipcodeControl: FormControl;
+  @Input() isLoading: boolean;
 
-  constructor(
-    private locationService : LocationService, 
-    private weatherService: WeatherService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.weatherService.isLoading$.subscribe(isLoading => {
-      this.isLoading = isLoading
-    });
-  }
-
-  addLocation(zipcode : string){
-    this.locationService.addLocation(zipcode);
   }
 
 }

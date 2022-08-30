@@ -1,8 +1,6 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { LocationService } from "app/location.service";
-import { Observable } from "rxjs";
-import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Component({
     selector: 'app-country-selection', 
@@ -10,31 +8,32 @@ import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
     styleUrls: ['./country-selection.component.css']
 })
 export class CountrySelectionComponent implements OnInit {
-    countryForm = new FormControl('');
-    countries: string[] = [];
-    filteredCountries: string[] = []; 
+    @Input() countryControl: FormControl;
+    @Input() countries: string[] = [];
+    @Input() filteredCountries: string[] = [];
+    @Output() countryInput = new EventEmitter<string>();
 
-    constructor(
-        private locationService: LocationService, 
-    ) {}
+    constructor() {}
 
     ngOnInit(): void {
-        this.countries = this.locationService.getCountries();
-
-        this.countryForm.valueChanges.pipe(
+        this.countryControl.valueChanges.pipe(
             debounceTime(100), 
             distinctUntilChanged()
         ).subscribe((value: string) => {
-            this.filteredCountries = this.locationService.filterCountries(value);
+            this.countryInput.emit(value);
         });
     }
 
-    onInputSelect(): void {
+    onRevealSelection(): void {
         this.filteredCountries = this.countries;
     }
 
-    onCountrySelect(index: number): void {
-        this.countryForm.setValue(this.filteredCountries[index]);
+    onRemoveSelection(): void {
         this.filteredCountries = [];
+    }
+
+    onCountrySelect(index: number): void {
+        this.countryControl.setValue(this.filteredCountries[index]);
+        this.onRemoveSelection();
     }
 }

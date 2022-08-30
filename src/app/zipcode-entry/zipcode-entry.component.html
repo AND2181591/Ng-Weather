@@ -1,15 +1,3 @@
 <h2>Enter a zipcode:</h2>
-<input type="text" #zipcode placeholder="Zipcode" class="form-control">
+<input type="text" [formControl]="zipcodeControl" placeholder="Zipcode" class="form-control">
 <br>
-<app-state-button 
-  [isLoading]="isLoading"
-  [defaultState]="defaultState" 
-  [workingState]="workingState" 
-  [finishedState]="finishedState" 
-  [customStyle]="done"
-  (submitted)="addLocation(zipcode.value)">
-</app-state-button>
-
-<ng-template #defaultState>Add location</ng-template>
-<ng-template #workingState>Adding...</ng-template>
-<ng-template #finishedState>&#x2713; Done</ng-template>

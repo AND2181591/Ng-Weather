@@ -27,7 +27,7 @@ export class LocationService {
       return this.countries.filter(country => country.toUpperCase().includes(value.toUpperCase()))
   }
 
-  addLocation(zipcode : string){
+  addLocation(zipcode: string){
     this.locations.push(zipcode);
     localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
     this.weatherService.addCurrentConditions(zipcode);
