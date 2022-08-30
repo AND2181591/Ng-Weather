@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Country } from 'app/interfaces/country';
 import { LocationService } from 'app/location.service';
 import { WeatherService } from 'app/weather.service';
 
@@ -9,18 +10,18 @@ import { WeatherService } from 'app/weather.service';
 })
 export class MainPageComponent implements OnInit {
   isLoading = false;
-  countries: string[] = [];
-  filteredCountries: string[] = [];
-
-  weatherForm = new FormGroup({
-    country: new FormControl(''), 
-    zipcode: new FormControl('')
-  });
-
+  countries: Country[] = [];
+  filteredCountries: Country[] = [];
   done = {
     backgroundColor: '#198754', 
     borderColor: '#198754'
   }
+
+  selectedCountry: Country;
+  weatherForm = new FormGroup({
+    country: new FormControl(''), 
+    zipcode: new FormControl('')
+  });
 
   constructor(
     private locationService: LocationService, 
@@ -36,18 +37,21 @@ export class MainPageComponent implements OnInit {
   }
 
   onTextInput(text: string): void {
-    this.weatherForm.get('country').setValue(text);
+    const enteredText = this.weatherForm.get('country').value;
+    const countryExists = this.countries.find(country => country.name.toUpperCase() === enteredText.toUpperCase());
+    if (countryExists) {
+      this.onCountrySelect(countryExists);
+    }
     this.filteredCountries = this.locationService.filterCountries(text);
   }
 
-  onCountrySelect(country: string): void {
-    console.log(country)
+  onCountrySelect(country: Country): void {
+    this.selectedCountry = country;
   }
 
   addLocation(): void {
-    const country = this.weatherForm.get('country').value;
     const zipcode = this.weatherForm.get('zipcode').value;
-    this.locationService.addLocation(zipcode);
+    this.locationService.addLocation(this.selectedCountry, zipcode);
   }
     
 }

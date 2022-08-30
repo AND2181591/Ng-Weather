@@ -1,21 +1,18 @@
 <h2>Enter a country:</h2>
-<div 
-    (mouseenter)="onRevealSelection()" 
-    (mouseleave)="onRemoveSelection()">
-    <input 
-        type="text" 
-        #country 
-        placeholder="Country" 
-        class="form-control" 
-        [formControl]="countryControl">
-    <ng-container *ngIf="filteredCountries?.length > 0 && country.value !== filteredCountries[0]">
-        <div class="country-container">
-            <p 
-                class="country"
-                *ngFor="let option of filteredCountries; let i = index" 
-                (click)="onCountrySelect(i)">
-                <span [innerHTML]="option | boldLetters:country.value"></span>
-            </p>
-        </div>
-    </ng-container>
-</div>
+<input 
+    type="text" 
+    #country 
+    placeholder="Enter country name" 
+    class="form-control" 
+    [formControl]="countryControl" 
+    (click)="onRevealSelection()">
+<ng-container *ngIf="filteredCountries?.length > 0 && country.value !== filteredCountries[0].name">
+    <div class="country-container">
+        <p 
+            class="country"
+            *ngFor="let option of filteredCountries; let i = index" 
+            (click)="onCountrySelect(i)">
+            <span [innerHTML]="option.name | boldLetters:country.value"></span>
+        </p>
+    </div>
+</ng-container>

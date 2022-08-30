@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { Country } from "app/interfaces/country";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Component({
@@ -9,9 +10,10 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 })
 export class CountrySelectionComponent implements OnInit {
     @Input() countryControl: FormControl;
-    @Input() countries: string[] = [];
-    @Input() filteredCountries: string[] = [];
+    @Input() countries: Country[] = [];
+    @Input() filteredCountries: Country[] = [];
     @Output() countryInput = new EventEmitter<string>();
+    @Output() countrySelect = new EventEmitter<Country>();
 
     constructor() {}
 
@@ -28,12 +30,9 @@ export class CountrySelectionComponent implements OnInit {
         this.filteredCountries = this.countries;
     }
 
-    onRemoveSelection(): void {
-        this.filteredCountries = [];
-    }
-
     onCountrySelect(index: number): void {
-        this.countryControl.setValue(this.filteredCountries[index]);
-        this.onRemoveSelection();
+        this.countryControl.setValue(this.filteredCountries[index].name);
+        this.countrySelect.emit(this.filteredCountries[index]);
+        this.filteredCountries = [];
     }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Country } from './interfaces/country';
 
 @Injectable()
 export class WeatherService {
@@ -14,10 +15,10 @@ export class WeatherService {
 
   constructor(private http: HttpClient) { }
 
-  addCurrentConditions(zipcode: string) {
+  addCurrentConditions(country: Country, zipcode: string) {
     // Here we make a request to get the curretn conditions data from the API. Note the use of backticks and an expression to insert the zipcode
     this.isLoading$.next(true);
-    this.http.get(`${WeatherService.URL}/weather?zip=${zipcode},us&units=imperial&APPID=${WeatherService.APPID}`)
+    this.http.get(`${WeatherService.URL}/weather?zip=${zipcode},${country.code}&units=imperial&APPID=${WeatherService.APPID}`)
       .subscribe(data => {
         this.isLoading$.next(false);
         this.currentConditions.push({zip: zipcode, data: data})

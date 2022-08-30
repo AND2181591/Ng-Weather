@@ -5,7 +5,9 @@
       [countryControl]="weatherForm.get('country')"
       [countries]="countries" 
       [filteredCountries]="filteredCountries" 
-      (countryInput)="onTextInput($event)">
+      (countryInput)="onTextInput($event)" 
+      (countrySelect)="onCountrySelect($event)" 
+      (blur)="filteredCountries = []">
     </app-country-selection>
     <app-zipcode-entry 
       [zipcodeControl]="weatherForm.get('zipcode')"
