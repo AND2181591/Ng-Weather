@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { COUNTRIES } from './countries';
 import {WeatherService} from "./weather.service";
 
 export const LOCATIONS : string = "locations";
@@ -6,6 +7,7 @@ export const LOCATIONS : string = "locations";
 @Injectable()
 export class LocationService {
 
+  private countries: string[] = COUNTRIES;
   locations : string[] = [];
 
   constructor(private weatherService : WeatherService) {
@@ -14,6 +16,15 @@ export class LocationService {
       this.locations = JSON.parse(locString);
     for (let loc of this.locations)
       this.weatherService.addCurrentConditions(loc);
+  }
+
+  getCountries(): string[] {
+    return this.countries;
+  }
+
+  filterCountries(value: string): string[] {
+    if (value)
+      return this.countries.filter(country => country.toUpperCase().includes(value.toUpperCase()))
   }
 
   addLocation(zipcode : string){

@@ -1,0 +1,17 @@
+.country-container {
+    position: absolute;
+    background: #fff;
+    box-shadow: 0px 8px 10px #a3a3a3;
+    overflow-y: scroll;
+    max-height: 400px;
+}
+
+.country {
+    padding: 10px 20px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.country:hover {
+    background: rgb(243, 243, 243);
+}
