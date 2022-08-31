@@ -5,3 +5,8 @@
   right: 20px;
   top: -2px;
 }
+
+.loading {
+  text-align: center;
+  line-height: 95vh;
+}

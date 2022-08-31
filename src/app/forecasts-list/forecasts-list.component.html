@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="forecast; else loading">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">5-day forecast for {{forecast?.city.name}}</h3>
@@ -15,5 +15,11 @@
       </li>
     </ul>
   </div>
+  <button class="btn btn-success" [routerLink]="'/'" >< Back to main page</button>
 </div>
-<button class="btn btn-success" [routerLink]="'/'" >< Back to main page</button>
+
+<ng-template #loading>
+  <div class="loading">
+    Loading...
+  </div>
+</ng-template>
