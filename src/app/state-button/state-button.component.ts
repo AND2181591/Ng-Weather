@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from "@angular/core";
-import { BehaviorSubject, timer } from "rxjs";
+import { BehaviorSubject, of, timer } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
 @Component({
@@ -33,15 +33,18 @@ export class StateButtonComponent implements OnInit {
                 if (value) {
                     this.addClass = false;
                     this.displayedState = this.workingState;
+                    return of(value);
                 } else {
                     this.addClass = true;
                     this.displayedState = this.finishedState;
                 }
                 return this.finishedStateTimer$;
             })
-        ).subscribe(() => {
-            this.displayedState = this.defaultState;
-            this.addClass = false;
+        ).subscribe((value) => {
+            if (!value) {
+                this.displayedState = this.defaultState;
+                this.addClass = false;
+            }
         });
     }
 
